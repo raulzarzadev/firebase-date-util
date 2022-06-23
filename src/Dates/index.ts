@@ -7,12 +7,18 @@ type ToTimestamp = Timestamp | null;
 type Target = 'timestamp' | 'number' | 'date' | 'fieldDate';
 
 class Dates {
+
+  static errorLog(functionName: string, message: string, ...rest: unknown[]) {
+    console.error({ message, functionName, ...rest })
+  }
+
   static toTimestamp(date: unknown): ToTimestamp {
     const _date = this.toDate(date);
 
     if (_date) return Timestamp.fromDate(_date);
 
-    console.error('invalid date', date);
+    this.errorLog('toTimestamp', 'invalid date', date)
+
 
     return null;
   }
@@ -35,7 +41,7 @@ class Dates {
       }
     }
 
-    console.error('invalid date', date);
+    this.errorLog('toDate', 'invalid date', date)
 
     return null;
   };
@@ -50,7 +56,7 @@ class Dates {
   static toFieldDate(date: any): string | null {
     const _date = this.toDate(date);
     if (_date) return this.format(_date, 'yyyy-MM-dd');
-    console.error('invalid date', date);
+    this.errorLog('toFieldDate', 'invalid date', date)
 
     return null;
   }
@@ -63,8 +69,7 @@ class Dates {
         locale: es,
       });
 
-    console.error('invalid date', date);
-
+    this.errorLog('format', 'invalid date', date)
     return null;
   };
 
@@ -78,7 +83,7 @@ class Dates {
         addSuffix: true,
       });
 
-    console.error('invalid date', date);
+    this.errorLog('fromNow', 'invalid date', date)
 
     return null;
   };
@@ -88,16 +93,20 @@ class Dates {
     target: Target,
   ): string | Date | number | Timestamp | null {
     const _date = this.toDate(date);
+    if (_date) {
+      const options = {
+        fieldDate: (): string | null => this.format(_date, 'yyyy-MM-dd'),
+        timestamp: (): Timestamp => Timestamp.fromDate(_date),
+        date: (): Date => _date,
+        number: (): number => _date.getTime(),
+      };
 
-    if (!_date) return null;
-    const options = {
-      fieldDate: (): string | null => this.format(_date, 'yyyy-MM-dd'),
-      timestamp: (): Timestamp => Timestamp.fromDate(_date),
-      date: (): Date => _date,
-      number: (): number => _date.getTime(),
-    };
+      return options[target]();
+    } else {
 
-    return options[target]();
+      this.errorLog('tranformDateTo', 'invalid date', date)
+      return null;
+    }
   }
 
   static formatObjectDates(object: object, target: Target) {
@@ -127,7 +136,8 @@ class Dates {
       } else if (typeof objProperty === 'object') {
         // @ts-ignore
         auxObj[key] = this.deepFormatObjectDates(objProperty, target);
-      }
+      } 
+      // this.errorLog('deepFormatObject', 'invalid date', key, objProperty)
     });
     // console.log(auxObj)
     return auxObj;
