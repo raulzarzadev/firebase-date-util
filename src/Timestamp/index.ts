@@ -7,4 +7,4 @@ class TimestampUtil {
   }
 }
 
-export { TimestampUtil }
+export { TimestampUtil };
