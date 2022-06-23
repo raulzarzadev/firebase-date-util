@@ -7,9 +7,8 @@ type ToTimestamp = Timestamp | null;
 type Target = 'timestamp' | 'number' | 'date' | 'fieldDate';
 
 class Dates {
-
   static errorLog(functionName: string, message: string, ...rest: unknown[]) {
-    console.error({ message, functionName, ...rest })
+    console.error({ message, functionName, ...rest });
   }
 
   static toTimestamp(date: unknown): ToTimestamp {
@@ -17,8 +16,7 @@ class Dates {
 
     if (_date) return Timestamp.fromDate(_date);
 
-    this.errorLog('toTimestamp', 'invalid date', date)
-
+    this.errorLog('toTimestamp', 'invalid date', date);
 
     return null;
   }
@@ -41,7 +39,7 @@ class Dates {
       }
     }
 
-    this.errorLog('toDate', 'invalid date', date)
+    this.errorLog('toDate', 'invalid date', date);
 
     return null;
   };
@@ -56,7 +54,7 @@ class Dates {
   static toFieldDate(date: any): string | null {
     const _date = this.toDate(date);
     if (_date) return this.format(_date, 'yyyy-MM-dd');
-    this.errorLog('toFieldDate', 'invalid date', date)
+    this.errorLog('toFieldDate', 'invalid date', date);
 
     return null;
   }
@@ -69,7 +67,7 @@ class Dates {
         locale: es,
       });
 
-    this.errorLog('format', 'invalid date', date)
+    this.errorLog('format', 'invalid date', date);
     return null;
   };
 
@@ -83,7 +81,7 @@ class Dates {
         addSuffix: true,
       });
 
-    this.errorLog('fromNow', 'invalid date', date)
+    this.errorLog('fromNow', 'invalid date', date);
 
     return null;
   };
@@ -103,8 +101,7 @@ class Dates {
 
       return options[target]();
     } else {
-
-      this.errorLog('tranformDateTo', 'invalid date', date)
+      this.errorLog('tranformDateTo', 'invalid date', date);
       return null;
     }
   }
@@ -136,7 +133,7 @@ class Dates {
       } else if (typeof objProperty === 'object') {
         // @ts-ignore
         auxObj[key] = this.deepFormatObjectDates(objProperty, target);
-      } 
+      }
       // this.errorLog('deepFormatObject', 'invalid date', key, objProperty)
     });
     // console.log(auxObj)
