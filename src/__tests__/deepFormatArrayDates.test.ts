@@ -1,52 +1,47 @@
-import { Timestamp } from "firebase/firestore"
-import { Dates } from "../Dates"
+import { Timestamp } from 'firebase/firestore';
+import { Dates } from '../Dates';
 
 const obj = {
-    name: 'Pedro',
-    date: new Date(),
-    fieldDate: '2022-06-12',
+  name: 'Pedro',
+  date: new Date(),
+  fieldDate: '2022-06-12',
 
-    posts: [
-        {
-            id: 1,
-            createdBy: 'Jow Dea',
-            createdAt: new Date(),
-            startAt: 23423523423,
-            finishAt: '2022-06-12',
-
-        }
-    ]
-}
+  posts: [
+    {
+      id: 1,
+      createdBy: 'Jow Dea',
+      createdAt: new Date(),
+      startAt: 23423523423,
+      finishAt: '2022-06-12',
+    },
+  ],
+};
 
 const expecting = (TIPO: any) => {
-    return {
-        name: expect.any(String),
-        date: expect.any(TIPO),
-        fieldDate: expect.any(TIPO),
+  return {
+    name: expect.any(String),
+    date: expect.any(TIPO),
+    fieldDate: expect.any(TIPO),
 
-
-        posts: [
-            {
-                id: expect.any(Number),
-                createdBy: expect.any(String),
-                createdAt: expect.any(TIPO),
-                startAt: expect.any(TIPO),
-                finishAt: expect.any(TIPO),
-
-
-            }
-        ]
-    }
-}
+    posts: [
+      {
+        id: expect.any(Number),
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+      },
+    ],
+  };
+};
 
 test('deep  format array dates to number', () => {
-
-    expect(Dates.deepFormatObjectDates(obj, 'number')).toStrictEqual(expecting(Number))
-})
+  expect(Dates.deepFormatObjectDates(obj, 'number')).toStrictEqual(expecting(Number));
+});
 
 test('deep format dates array to timestamp', () => {
-    expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp))
-})
+  expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
+});
 
 /*  dates: {
              startAt: new Date(),
