@@ -1,32 +1,11 @@
 import { Timestamp } from 'firebase/firestore';
 import { Dates } from '../Dates';
+import { SIMPLE_OBJ } from '../DATES_OBJS_TESTS';
 
 test('transform dates to number', () => {
-  const dates = {
-    nombre: 'Prueba ',
-    date: new Date(),
-    createdAt: 12312324432,
-    startAt: '2022-06-12',
-  };
-  expect(Dates.formatObjectDates(dates, 'number')).toStrictEqual({
-    nombre: expect.any(String),
-    date: expect.any(Number),
-    createdAt: expect.any(Number),
-    startAt: expect.any(Number),
-  });
+  expect(Dates.formatObjectDates(SIMPLE_OBJ.obj, 'number')).toStrictEqual(SIMPLE_OBJ.expecting(Number));
 });
 
 test('ransform dates to timestamp', () => {
-  const dates = {
-    nombre: 'Prueba ',
-    date: new Date(),
-    createdAt: 12312324432,
-    startAt: '2022-06-12',
-  };
-  expect(Dates.formatObjectDates(dates, 'timestamp')).toStrictEqual({
-    nombre: expect.any(String),
-    date: expect.any(Timestamp),
-    createdAt: expect.any(Timestamp),
-    startAt: expect.any(Timestamp),
-  });
+  expect(Dates.formatObjectDates(SIMPLE_OBJ.obj, 'timestamp')).toStrictEqual(SIMPLE_OBJ.expecting(Timestamp));
 });
