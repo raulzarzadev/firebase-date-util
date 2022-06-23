@@ -1,5 +1,5 @@
-import { TimestampUtil } from '../index'
+import { TimestampUtil } from '../index';
 
 test('online test', () => {
-    expect(TimestampUtil.onlineTest()).toBe('is online')
-})
+  expect(TimestampUtil.onlineTest()).toBe('is online');
+});
