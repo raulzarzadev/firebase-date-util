@@ -99,9 +99,9 @@ class Dates {
 
 
     static formatObjectDates(object: object, target: Target) {
-        let auxObj = { ...object }
+        const auxObj = { ...object }
         Object.keys(auxObj).forEach(key => {
-            let objProperty: any = auxObj[key as keyof typeof object]
+            const objProperty: any = auxObj[key as keyof typeof object]
             if (this.DATE_FIELDS.includes(key)) {
                 // @ts-ignore
                 auxObj[key] = this.transformDateTo(objProperty, target)
@@ -112,11 +112,11 @@ class Dates {
 
 
     static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
-        let auxObj = { ...object }
+        const auxObj = { ...object }
 
       
          Object.keys(auxObj).forEach(key => {
-             let objProperty: any = auxObj[key as keyof typeof object]
+             const objProperty: any = auxObj[key as keyof typeof object]
              // console.log(objProperty)
              if (this.DATE_FIELDS.includes(key)) {
                  // @ts-ignore
