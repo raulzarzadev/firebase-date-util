@@ -5,14 +5,17 @@ const obj = {
     name: 'Pedro',
     date: new Date(),
     fieldDate: '2022-06-12',
-    dates: {
-        createdBy: 'Lula',
-        createdAt: new Date(),
-        startAt: 23423523423,
-        finishAt: '2022-06-12',
-    },
 
+    posts: [
+        {
+            id: 1,
+            createdBy: 'Jow Dea',
+            createdAt: new Date(),
+            startAt: 23423523423,
+            finishAt: '2022-06-12',
 
+        }
+    ]
 }
 
 const expecting = (TIPO: any) => {
@@ -21,24 +24,27 @@ const expecting = (TIPO: any) => {
         date: expect.any(TIPO),
         fieldDate: expect.any(TIPO),
 
-        dates: {
-            createdBy: expect.any(String),
-            createdAt: expect.any(TIPO),
-            startAt: expect.any(TIPO),
-            finishAt: expect.any(TIPO),
-            
 
-        },
+        posts: [
+            {
+                id: expect.any(Number),
+                createdBy: expect.any(String),
+                createdAt: expect.any(TIPO),
+                startAt: expect.any(TIPO),
+                finishAt: expect.any(TIPO),
 
+
+            }
+        ]
     }
 }
 
-test('deep format object dates to number', () => {
+test('deep  format array dates to number', () => {
 
     expect(Dates.deepFormatObjectDates(obj, 'number')).toStrictEqual(expecting(Number))
 })
 
-test('deep format object dates to timestamp', () => {
+test('deep format dates array to timestamp', () => {
     expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp))
 })
 

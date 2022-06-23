@@ -10,6 +10,22 @@ const obj = {
         createdAt: new Date(),
         startAt: 23423523423,
         finishAt: '2022-06-12',
+        fechas: {
+            createdBy: 'Lula',
+            createdAt: new Date(),
+            startAt: 23423523423,
+            finishAt: '2022-06-12',
+            posts: [
+                {
+                    id: 1,
+                    createdBy: 'Jow Dea',
+                    createdAt: new Date(),
+                    startAt: 23423523423,
+                    finishAt: '2022-06-12',
+        
+                }
+            ]
+        }
     },
 
 
@@ -26,8 +42,23 @@ const expecting = (TIPO: any) => {
             createdAt: expect.any(TIPO),
             startAt: expect.any(TIPO),
             finishAt: expect.any(TIPO),
-            
-
+            fechas: {
+                createdBy: expect.any(String),
+                createdAt: expect.any(TIPO),
+                startAt: expect.any(TIPO),
+                finishAt: expect.any(TIPO),
+                posts: [
+                    {
+                        id: expect.any(Number),
+                        createdBy: expect.any(String),
+                        createdAt: expect.any(TIPO),
+                        startAt: expect.any(TIPO),
+                        finishAt: expect.any(TIPO),
+        
+        
+                    }
+                ]
+            }
         },
 
     }

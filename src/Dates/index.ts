@@ -124,9 +124,13 @@ class Dates {
              } else if (Array.isArray(objProperty)) {
                  // @ts-ignore
                  auxObj[key] = objProperty.map(item => this.deepFormatObjectDates(item, target))
-             } 
+             } else if (typeof objProperty === 'object') {
+                 // @ts-ignore
+                 auxObj[key] = this.deepFormatObjectDates(objProperty, target)
+               
+             }
          })
-         console.log(auxObj)
+         // console.log(auxObj)
         return auxObj
     }
 
