@@ -50,7 +50,7 @@ class Dates {
   static toFieldDate(date: any): string | null {
     const _date = this.toDate(date);
     if (_date) return this.format(_date, 'yyyy-MM-dd');
-    c console.error('invalid date',date);
+    console.error('invalid date',date);
 
     return null;
   }
