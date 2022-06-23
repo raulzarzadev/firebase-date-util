@@ -12,7 +12,7 @@ class Dates {
 
     if (_date) return Timestamp.fromDate(_date);
 
-    console.error('invalid date',date);
+    console.error('invalid date', date);
 
     return null;
   }
@@ -35,7 +35,7 @@ class Dates {
       }
     }
 
-    console.error('invalid date',date);
+    console.error('invalid date', date);
 
     return null;
   };
@@ -50,7 +50,7 @@ class Dates {
   static toFieldDate(date: any): string | null {
     const _date = this.toDate(date);
     if (_date) return this.format(_date, 'yyyy-MM-dd');
-    console.error('invalid date',date);
+    console.error('invalid date', date);
 
     return null;
   }
@@ -63,8 +63,7 @@ class Dates {
         locale: es,
       });
 
-      console.error('invalid date',date);
-
+    console.error('invalid date', date);
 
     return null;
   };
@@ -79,8 +78,7 @@ class Dates {
         addSuffix: true,
       });
 
-      console.error('invalid date',date);
-
+    console.error('invalid date', date);
 
     return null;
   };
