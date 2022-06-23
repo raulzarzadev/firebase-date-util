@@ -1,10 +1,5 @@
-class TimestampUtil {
-  static onlineTest() {
-    return 'is online';
-  }
-  static toTimestamp(date: unknown) {
-    console.log('date', date);
-  }
-}
 
-export { TimestampUtil };
+import { Dates } from "./Dates";
+import { TimestampUtil } from "./Timestamp";
+
+export { TimestampUtil, Dates };
