@@ -142,7 +142,7 @@ class Dates {
   }
 
   static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
-    return this.formatComplexObjectDates(object, target)
+    return this.formatComplexObjectDates(object, target);
   }
 
   static DATE_FIELDS = [
