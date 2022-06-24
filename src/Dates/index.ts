@@ -25,7 +25,7 @@ class Dates {
     if (date instanceof Date) {
       return date;
       // @ts-ignore
-    } else if (date?.toDate()) {
+    } else if (date?.toDate) {
       // @ts-ignore
       return date.toDate();
     } else if (typeof date === 'number') {
@@ -83,7 +83,7 @@ class Dates {
   };
 
   static transformDateTo(date: string | number | Date | Timestamp, target: Target): string | Date | number | Timestamp {
-    console.log(date);
+    console.log(date)
     const _date = this.toDate(date);
 
     const options = {
