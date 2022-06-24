@@ -21,9 +21,22 @@ class Dates {
     return null;
   }
 
-  static toDate = (date: unknown): ToDate => {
-    if (!date) return null;
-
+  static toDate = (date: unknown): any => {
+    if (date instanceof Date) {
+      return date
+    } else if (date instanceof Timestamp) {
+      return date.toDate()
+    } else if (typeof date === 'number') {
+      return new Date(date)
+    } else if (typeof date === 'string') {
+      const aux = new Date(date);
+      if (isNaN(aux.getTime())) {
+        return date;
+      } else {
+        return aux;
+      }
+    }
+    /* 
     if (date instanceof Date) return date;
 
     if (date instanceof Timestamp) return date.toDate();
@@ -33,15 +46,13 @@ class Dates {
     if (typeof date === 'string') {
       const aux = new Date(date);
       if (isNaN(aux.getTime())) {
-        return null;
+        return 'isNaD';
       } else {
         return aux;
       }
-    }
+    } */
 
-    this.errorLog('toDate', 'invalid date', date);
 
-    return null;
   };
 
   static toMiliseconds(date: any) {
@@ -59,7 +70,7 @@ class Dates {
     return null;
   }
 
-  static format = (date: string | number | Date, stringFormat = 'dd/MM/yy'): string | null => {
+  static format = (date: string | number | Date, stringFormat = 'dd/MM/yy'): string => {
     const _date = this.toDate(date);
 
     if (_date)
@@ -68,7 +79,7 @@ class Dates {
       });
 
     this.errorLog('format', 'invalid date', date);
-    return null;
+    return 'isNaD';
   };
 
   static fromNow = (date: string | number | Date): string | null => {
@@ -94,7 +105,7 @@ class Dates {
 
     if (_date) {
       const options = {
-        fieldDate: (): string | null => this.format(_date, 'yyyy-MM-dd'),
+        fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
         timestamp: (): Timestamp => Timestamp.fromDate(_date),
         date: (): Date => _date,
         number: (): number => _date.getTime(),
@@ -106,6 +117,8 @@ class Dates {
       return null;
     }
   }
+
+
 
   static formatObjectDates(object: object, target: Target) {
     const auxObj = { ...object };
