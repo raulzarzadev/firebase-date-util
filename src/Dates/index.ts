@@ -36,7 +36,6 @@ class Dates {
         return aux;
       }
     }
-
   };
 
   static toMiliseconds(date: any) {
@@ -92,7 +91,6 @@ class Dates {
     };
 
     return options[target]();
-
   }
 
   static formatObjectDates(object: object, target: Target) {
