@@ -7,9 +7,9 @@ const obj = OBJ_OBJECTS.obj;
 const expecting = OBJ_OBJECTS.expecting;
 
 test('deep format object dates to number', () => {
-  expect(Dates.deepFormatObjectDates(obj, 'number')).toStrictEqual(expecting(Number));
+  expect(Dates.formatComplexObjectDates(obj, 'number')).toStrictEqual(expecting(Number));
 });
 
 test('deep format object dates to timestamp', () => {
-  expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
+  expect(Dates.formatComplexObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
 });

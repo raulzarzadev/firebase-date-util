@@ -90,7 +90,9 @@ class Dates {
     date: string | number | Date | unknown,
     target: Target,
   ): string | Date | number | Timestamp | null {
+    
     const _date = this.toDate(date);
+    
     if (_date) {
       const options = {
         fieldDate: (): string | null => this.format(_date, 'yyyy-MM-dd'),
@@ -113,9 +115,42 @@ class Dates {
       if (this.DATE_FIELDS.includes(key)) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target);
+      } else if (objProperty instanceof Date) {
+        // @ts-ignore
+        auxObj[key] = this.transformDateTo(objProperty, target)
+      } else if (objProperty instanceof Timestamp) {
+        // @ts-ignore
+        auxObj[key] = this.transformDateTo(objProperty, target)
+
       }
     });
     return auxObj;
+  }
+  
+  static formatComplexObjectDates(object: object, target: Target) {
+    
+    const auxObj = this.formatObjectDates(object, target) 
+    console.log(auxObj)
+
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(auxObj, key)) {
+        // @ts-ignore
+        const element = auxObj[key];
+        if (Array.isArray(element)) {
+          // @ts-ignore
+          auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+        } else if (typeof element === 'object') {
+          // @ts-ignore
+          auxObj[key]= this.formatObjectDates(element, target)
+          // @ts-ignore
+         //  auxObj[key] = this.formatComplexObjectDates(element, target)
+         
+        }
+
+      }
+    }
+   //  console.log(auxObj)
+    return auxObj
   }
 
   static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
@@ -124,6 +159,8 @@ class Dates {
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
       // console.log(objProperty)
+      // @ts-ignore
+      if (objProperty instanceof Date) auxObj[key] = this.transformDateTo(objProperty, target)
       if (this.DATE_FIELDS.includes(key)) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target);
