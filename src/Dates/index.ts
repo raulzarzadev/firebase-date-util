@@ -95,10 +95,7 @@ class Dates {
     return null;
   };
 
-  static transformDateTo(
-    date: string | number | Date | Timestamp,
-    target: Target,
-  ): string | Date | number | Timestamp  {
+  static transformDateTo(date: string | number | Date | Timestamp, target: Target): string | Date | number | Timestamp {
     const _date = this.toDate(date);
 
     if (_date) {
