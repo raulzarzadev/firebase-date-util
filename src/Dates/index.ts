@@ -131,22 +131,27 @@ class Dates {
 
 
 
-  static isLiteralObject = function (a: any) {
+  static isLiteralObject(a: any) {
     return (!!a) && (a.constructor === Object);
   }
 
   static formatComplexObjectDates(object: object, target: Target) {
     const auxObj = { ...this.formatObjectDates(object, target) }
+
     for (const key in object) {
-      // @ts-ignore
-      const element = object[key]
-      if (Array.isArray(element)) {
+     
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
         // @ts-ignore
-        auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
-      } else if (this.isLiteralObject(element)) {
-        // @ts-ignore
-        auxObj[key] = this.formatComplexObjectDates(element, target);
+        const element = object[key]
+        if (Array.isArray(element)) {
+          // @ts-ignore
+          auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+        } else if (this.isLiteralObject(element)) {
+          // @ts-ignore
+          auxObj[key] = this.formatComplexObjectDates(element, target);
+        }
       }
+
     }
     return auxObj
   }
@@ -154,15 +159,19 @@ class Dates {
   static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
     const auxObj = { ...this.formatObjectDates(object, target) }
     for (const key in object) {
-      // @ts-ignore
-      const element = object[key]
-      if (Array.isArray(element)) {
+
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
         // @ts-ignore
-        auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
-      } else if (this.isLiteralObject(element)) {
-        // @ts-ignore
-        auxObj[key] = this.formatComplexObjectDates(element, target);
+        const element = object[key]
+        if (Array.isArray(element)) {
+          // @ts-ignore
+          auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+        } else if (this.isLiteralObject(element)) {
+          // @ts-ignore
+          auxObj[key] = this.formatComplexObjectDates(element, target);
+        }
       }
+      
     }
     return auxObj
   }
