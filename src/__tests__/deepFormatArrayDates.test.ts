@@ -8,9 +8,9 @@ const obj = OBJ_ARRAYS.obj;
 const expecting = OBJ_ARRAYS.expecting;
 
 test('deep  format array dates to number', () => {
-  expect(Dates.formatComplexObjectDates(obj, 'number')).toStrictEqual(expecting(Number));
+  expect(Dates.deepFormatObjectDates(obj, 'number')).toStrictEqual(expecting(Number));
 });
 
 test('deep format dates array to timestamp', () => {
-  expect(Dates.formatComplexObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
+  expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
 });
