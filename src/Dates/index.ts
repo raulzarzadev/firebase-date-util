@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 import { format as fnsFormat, formatDistanceToNowStrict } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { es, ta } from 'date-fns/locale';
 
 type ToDate = Date | null;
 type ToTimestamp = Timestamp | null;
@@ -87,12 +87,12 @@ class Dates {
   };
 
   static transformDateTo(
-    date: string | number | Date | unknown,
+    date: string | number | Date | Timestamp,
     target: Target,
   ): string | Date | number | Timestamp | null {
-    
+
     const _date = this.toDate(date);
-    
+
     if (_date) {
       const options = {
         fieldDate: (): string | null => this.format(_date, 'yyyy-MM-dd'),
@@ -121,60 +121,50 @@ class Dates {
       } else if (objProperty instanceof Timestamp) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target)
-
+      } else {
+        // @ts-ignore
+        auxObj[key] = object[key]
       }
     });
     return auxObj;
   }
-  
+
+
+
+  static isLiteralObject = function (a: any) {
+    return (!!a) && (a.constructor === Object);
+  }
+
   static formatComplexObjectDates(object: object, target: Target) {
-    
-    const auxObj = this.formatObjectDates(object, target) 
-    console.log(auxObj)
-
+    const auxObj = { ...this.formatObjectDates(object, target) }
     for (const key in object) {
-      if (Object.prototype.hasOwnProperty.call(auxObj, key)) {
+      // @ts-ignore
+      const element = object[key]
+      if (Array.isArray(element)) {
         // @ts-ignore
-        const element = auxObj[key];
-        if (Array.isArray(element)) {
-          // @ts-ignore
-          auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
-        } else if (typeof element === 'object') {
-          // @ts-ignore
-          auxObj[key]= this.formatObjectDates(element, target)
-          // @ts-ignore
-         //  auxObj[key] = this.formatComplexObjectDates(element, target)
-         
-        }
-
+        auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+      } else if (this.isLiteralObject(element)) {
+        // @ts-ignore
+        auxObj[key] = this.formatComplexObjectDates(element, target);
       }
     }
-   //  console.log(auxObj)
     return auxObj
   }
 
   static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
-    const auxObj = { ...object };
-
-    Object.keys(auxObj).forEach((key) => {
-      const objProperty: any = auxObj[key as keyof typeof object];
-      // console.log(objProperty)
+    const auxObj = { ...this.formatObjectDates(object, target) }
+    for (const key in object) {
       // @ts-ignore
-      if (objProperty instanceof Date) auxObj[key] = this.transformDateTo(objProperty, target)
-      if (this.DATE_FIELDS.includes(key)) {
+      const element = object[key]
+      if (Array.isArray(element)) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target);
-      } else if (Array.isArray(objProperty)) {
+        auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+      } else if (this.isLiteralObject(element)) {
         // @ts-ignore
-        auxObj[key] = objProperty.map((item) => this.deepFormatObjectDates(item, target));
-      } else if (typeof objProperty === 'object') {
-        // @ts-ignore
-        auxObj[key] = this.deepFormatObjectDates(objProperty, target);
+        auxObj[key] = this.formatComplexObjectDates(element, target);
       }
-      // this.errorLog('deepFormatObject', 'invalid date', key, objProperty)
-    });
-    // console.log(auxObj)
-    return auxObj;
+    }
+    return auxObj
   }
 
   static DATE_FIELDS = [
