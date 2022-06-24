@@ -129,7 +129,7 @@ class Dates {
         const element = object[key];
         if (Array.isArray(element)) {
           // @ts-ignore
-          auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
+          auxObj[key] = element.map((item) => this.isLiteralObject(item) ? this.formatComplexObjectDates(item, target) : item)
         } else if (this.isLiteralObject(element)) {
           // @ts-ignore
           auxObj[key] = this.formatComplexObjectDates(element, target);
