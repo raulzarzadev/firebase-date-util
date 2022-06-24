@@ -98,7 +98,7 @@ class Dates {
   static transformDateTo(
     date: string | number | Date | Timestamp,
     target: Target,
-  ): string | Date | number | Timestamp | null {
+  ): string | Date | number | Timestamp  {
     const _date = this.toDate(date);
 
     if (_date) {
@@ -111,8 +111,8 @@ class Dates {
 
       return options[target]();
     } else {
-      this.errorLog('tranformDateTo', 'invalid date', date);
-      return null;
+      this.errorLog('tranformDateTo', 'invalid date', _date);
+      return _date;
     }
   }
 
