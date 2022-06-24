@@ -23,11 +23,11 @@ class Dates {
 
   static toDate = (date: unknown): any => {
     if (date instanceof Date) {
-      return date
+      return date;
     } else if (date instanceof Timestamp) {
-      return date.toDate()
+      return date.toDate();
     } else if (typeof date === 'number') {
-      return new Date(date)
+      return new Date(date);
     } else if (typeof date === 'string') {
       const aux = new Date(date);
       if (isNaN(aux.getTime())) {
@@ -51,8 +51,6 @@ class Dates {
         return aux;
       }
     } */
-
-
   };
 
   static toMiliseconds(date: any) {
@@ -117,8 +115,6 @@ class Dates {
       return null;
     }
   }
-
-
 
   static formatObjectDates(object: object, target: Target) {
     const auxObj = { ...object };
