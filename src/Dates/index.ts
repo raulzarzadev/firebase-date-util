@@ -90,7 +90,6 @@ class Dates {
     date: string | number | Date | Timestamp,
     target: Target,
   ): string | Date | number | Timestamp | null {
-
     const _date = this.toDate(date);
 
     if (_date) {
@@ -117,32 +116,29 @@ class Dates {
         auxObj[key] = this.transformDateTo(objProperty, target);
       } else if (objProperty instanceof Date) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target)
+        auxObj[key] = this.transformDateTo(objProperty, target);
       } else if (objProperty instanceof Timestamp) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target)
+        auxObj[key] = this.transformDateTo(objProperty, target);
       } else {
         // @ts-ignore
-        auxObj[key] = object[key]
+        auxObj[key] = object[key];
       }
     });
     return auxObj;
   }
 
-
-
   static isLiteralObject(a: any) {
-    return (!!a) && (a.constructor === Object);
+    return !!a && a.constructor === Object;
   }
 
   static formatComplexObjectDates(object: object, target: Target) {
-    const auxObj = { ...this.formatObjectDates(object, target) }
+    const auxObj = { ...this.formatObjectDates(object, target) };
 
     for (const key in object) {
-     
       if (Object.prototype.hasOwnProperty.call(object, key)) {
         // @ts-ignore
-        const element = object[key]
+        const element = object[key];
         if (Array.isArray(element)) {
           // @ts-ignore
           auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
@@ -151,18 +147,16 @@ class Dates {
           auxObj[key] = this.formatComplexObjectDates(element, target);
         }
       }
-
     }
-    return auxObj
+    return auxObj;
   }
 
   static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
-    const auxObj = { ...this.formatObjectDates(object, target) }
+    const auxObj = { ...this.formatObjectDates(object, target) };
     for (const key in object) {
-
       if (Object.prototype.hasOwnProperty.call(object, key)) {
         // @ts-ignore
-        const element = object[key]
+        const element = object[key];
         if (Array.isArray(element)) {
           // @ts-ignore
           auxObj[key] = element.map((item) => this.formatComplexObjectDates(item, target));
@@ -171,9 +165,8 @@ class Dates {
           auxObj[key] = this.formatComplexObjectDates(element, target);
         }
       }
-      
     }
-    return auxObj
+    return auxObj;
   }
 
   static DATE_FIELDS = [
