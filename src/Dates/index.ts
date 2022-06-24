@@ -36,21 +36,7 @@ class Dates {
         return aux;
       }
     }
-    /* 
-    if (date instanceof Date) return date;
 
-    if (date instanceof Timestamp) return date.toDate();
-
-    if (typeof date === 'number') return new Date(date);
-
-    if (typeof date === 'string') {
-      const aux = new Date(date);
-      if (isNaN(aux.getTime())) {
-        return 'isNaD';
-      } else {
-        return aux;
-      }
-    } */
   };
 
   static toMiliseconds(date: any) {
@@ -98,19 +84,15 @@ class Dates {
   static transformDateTo(date: string | number | Date | Timestamp, target: Target): string | Date | number | Timestamp {
     const _date = this.toDate(date);
 
-    if (_date) {
-      const options = {
-        fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
-        timestamp: (): Timestamp => Timestamp.fromDate(_date),
-        date: (): Date => _date,
-        number: (): number => _date.getTime(),
-      };
+    const options = {
+      fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
+      timestamp: (): Timestamp => Timestamp.fromDate(_date),
+      date: (): Date => _date,
+      number: (): number => _date.getTime(),
+    };
 
-      return options[target]();
-    } else {
-      this.errorLog('tranformDateTo', 'invalid date', _date);
-      return _date;
-    }
+    return options[target]();
+
   }
 
   static formatObjectDates(object: object, target: Target) {
