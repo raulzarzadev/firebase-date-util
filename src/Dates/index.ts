@@ -83,7 +83,6 @@ class Dates {
   };
 
   static transformDateTo(date: string | number | Date | Timestamp, target: Target): string | Date | number | Timestamp {
-    console.log(date);
     const _date = this.toDate(date);
 
     const options = {
