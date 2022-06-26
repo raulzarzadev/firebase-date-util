@@ -24,7 +24,6 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
-
     const typeOf = (element: unknown) => {
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
@@ -41,7 +40,7 @@ class Dates {
       if (typeof element === 'function') return 'function';
       if (typeof element === 'symbol') return 'symbol';
       if (typeof element === 'object') return 'object';
-      return 'undefined'
+      return 'undefined';
     };
 
     const result = {
@@ -58,7 +57,7 @@ class Dates {
       literalObject: () => date,
       function: () => date,
       symbol: () => date,
-      object: () => date
+      object: () => date,
     };
 
     return result[typeOf(date)]();
@@ -114,7 +113,6 @@ class Dates {
     const _date = this.toDate(date);
 
     if (_date) {
-
       const result = {
         fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
         timestamp: (): Timestamp => Timestamp.fromDate(_date),
@@ -123,9 +121,8 @@ class Dates {
       };
 
       return result[target]();
-
     }
-    return date
+    return date;
   }
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
