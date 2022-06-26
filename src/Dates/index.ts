@@ -24,6 +24,7 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
+
     const typeOf = (element: unknown) => {
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
@@ -40,6 +41,7 @@ class Dates {
       if (typeof element === 'function') return 'function';
       if (typeof element === 'symbol') return 'symbol';
       if (typeof element === 'object') return 'object';
+      return 'undefined'
     };
 
     const result = {
@@ -56,9 +58,9 @@ class Dates {
       literalObject: () => date,
       function: () => date,
       symbol: () => date,
+      object: () => date
     };
 
-    // @ts-ignore
     return result[typeOf(date)]();
   };
 
@@ -109,22 +111,21 @@ class Dates {
     target: Target,
     options: TransformDateOptions = { avoidUndefined: false },
   ) {
-    if (!date) {
-      console.error('error', date);
-      return options?.avoidUndefined ? null : date;
-    }
-
     const _date = this.toDate(date);
-    // console.log(_date)
 
-    const result = {
-      fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
-      timestamp: (): Timestamp => Timestamp.fromDate(_date),
-      date: (): Date => _date,
-      number: (): number => _date.getTime(),
-    };
+    if (_date) {
 
-    return result[target]();
+      const result = {
+        fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
+        timestamp: (): Timestamp => Timestamp.fromDate(_date),
+        date: (): Date => _date,
+        number: (): number => _date.getTime(),
+      };
+
+      return result[target]();
+
+    }
+    return date
   }
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
