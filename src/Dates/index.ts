@@ -116,10 +116,10 @@ class Dates {
     if (_date instanceof Date) {
 
       const result = {
-        fieldDate: (date: Date): string => this.format(date, 'yyyy-MM-dd'),
-        timestamp: (date: Date): Timestamp => Timestamp.fromDate(date),
-        date: (date: Date): Date => date,
-        number: (date: Date): number => date.getTime(),
+        fieldDate: (d: Date): string => this.format(d, 'yyyy-MM-dd'),
+        timestamp: (d: Date): Timestamp => Timestamp.fromDate(d),
+        date: (d: Date): Date => d,
+        number: (d: Date): number => d.getTime(),
       };
 
       return result[target](_date);
