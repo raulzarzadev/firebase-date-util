@@ -27,10 +27,11 @@ export const OBJ_ARRAYS = {
     date: new Date(),
     fieldDate: '2022-06-12',
     birth: timestampDate,
-
+    createdAt: null,
     posts: [
       {
         id: 1,
+        updatedAt: undefined,
         createdBy: 'Jow Dea',
         createdAt: new Date(),
         startAt: 23423523423,
@@ -45,9 +46,11 @@ export const OBJ_ARRAYS = {
       date: expect.any(TIPO),
       fieldDate: expect.any(TIPO),
       birth: expect.any(TIPO),
+      createdAt: null,
       posts: [
         {
           id: expect.any(Number),
+          updatedAt: undefined,
           createdBy: expect.any(String),
           createdAt: expect.any(TIPO),
           startAt: expect.any(TIPO),

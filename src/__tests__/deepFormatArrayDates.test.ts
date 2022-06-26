@@ -14,3 +14,4 @@ test('deep  format array dates to number', () => {
 test('deep format dates array to timestamp', () => {
   expect(Dates.deepFormatObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
 });
+;

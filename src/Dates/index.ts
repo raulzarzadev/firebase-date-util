@@ -1,11 +1,13 @@
-import { Timestamp } from 'firebase/firestore';
 import { format as fnsFormat, formatDistanceToNowStrict } from 'date-fns';
 import { es, ta } from 'date-fns/locale';
+import { Timestamp } from 'firebase/firestore';
 
 type ToDate = Date | null;
 type ToTimestamp = Timestamp | null;
 type Target = 'timestamp' | 'number' | 'date' | 'fieldDate';
-
+interface TransformDateOptions {
+  avoidUndefined?: boolean
+}
 class Dates {
   static errorLog(functionName: string, message: string, ...rest: unknown[]) {
     console.error({ message, functionName, ...rest });
@@ -21,23 +23,47 @@ class Dates {
     return null;
   }
 
-  static toDate = (date: unknown): any => {
-    if (date instanceof Date) {
-      return date;
-      // @ts-ignore
-    } else if (date?.toDate) {
-      // @ts-ignore
-      return date.toDate();
-    } else if (typeof date === 'number') {
-      return new Date(date);
-    } else if (typeof date === 'string') {
-      const aux = new Date(date);
-      if (isNaN(aux.getTime())) {
-        return date;
-      } else {
-        return aux;
+  static toDate = (date: unknown) => {
+
+    const typeOf = (date: unknown) => {
+
+      const isLiteralObject = (a: any) => {
+        return !!a && a.constructor === Object;
       }
+
+      if (date === null) return 'null'
+      if (date === undefined) return 'undefined'
+      if (Array.isArray(date)) return 'array'
+      if (isLiteralObject(date)) return 'literalObject'
+      if (date instanceof Date) return 'date'
+      if (date instanceof Timestamp) return 'timestamp'
+      if (typeof date === 'number') return 'number'
+      if (typeof date === 'string') return 'string'
+      if (typeof date === 'function') return 'function'
+      if (typeof date === 'symbol') return 'symbol'
+      if (typeof date === 'object') return 'object'
+
     }
+
+    const result = {
+      'date': () => date,
+      //@ts-ignore
+      'timestamp': () => date?.toDate(),
+      //@ts-ignore
+      'number': () => new Date(date),
+      //@ts-ignore
+      'string': () => new Date(date)?.getTime() ? new Date(date) : date,
+      'null': () => date,
+      'undefined': () => date,
+      'array': () => date,
+      'literalObject': () => date,
+      'function': () => date,
+      'symbol': () => date,
+    }
+
+    //@ts-ignore
+    return result[typeOf(date)]()
+
   };
 
   static toMiliseconds(date: any) {
@@ -82,37 +108,51 @@ class Dates {
     return null;
   };
 
-  static transformDateTo(date: string | number | Date | Timestamp, target: Target): string | Date | number | Timestamp {
-    const _date = this.toDate(date);
+  static transformDateTo(date: string | number | Date | Timestamp, target: Target, options: TransformDateOptions = { avoidUndefined: false }) {
 
-    const options = {
+    if (!date) {
+      console.error('error', date)
+      return options?.avoidUndefined ? null : date
+    }
+
+   
+
+    const _date = this.toDate(date);
+    // console.log(_date)
+
+    const result = {
       fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
       timestamp: (): Timestamp => Timestamp.fromDate(_date),
       date: (): Date => _date,
       number: (): number => _date.getTime(),
     };
 
-    return options[target]();
+    return result[target]();
   }
 
-  static formatObjectDates(object: object, target: Target) {
+  static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
+
     const auxObj = { ...object };
+
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
+
+
       if (this.DATE_FIELDS.includes(key)) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target);
+        auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else if (objProperty instanceof Date) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target);
+        auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else if (objProperty instanceof Timestamp) {
         // @ts-ignore
-        auxObj[key] = this.transformDateTo(objProperty, target);
+        auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else {
         // @ts-ignore
         auxObj[key] = object[key];
       }
     });
+
     return auxObj;
   }
 
@@ -120,8 +160,13 @@ class Dates {
     return !!a && a.constructor === Object;
   }
 
-  static formatComplexObjectDates(object: object, target: Target) {
-    const auxObj = { ...this.formatObjectDates(object, target) };
+  static formatComplexObjectDates(object: object, target: Target, options?: TransformDateOptions) {
+    return this.deepFormatObjectDates(object, target, options);
+
+  }
+
+  static deepFormatObjectDates(object: object, target: Target = 'number', options?: TransformDateOptions): object {
+    const auxObj = { ...this.formatObjectDates(object, target, options) };
 
     for (const key in object) {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
@@ -130,19 +175,16 @@ class Dates {
         if (Array.isArray(element)) {
           // @ts-ignore
           auxObj[key] = element.map((item) =>
-            this.isLiteralObject(item) ? this.formatComplexObjectDates(item, target) : item,
+            this.isLiteralObject(item) ? this.deepFormatObjectDates(item, target, options) : item,
           );
         } else if (this.isLiteralObject(element)) {
           // @ts-ignore
-          auxObj[key] = this.formatComplexObjectDates(element, target);
+          auxObj[key] = this.deepFormatObjectDates(element, target, options);
         }
       }
     }
+    console.log(auxObj)
     return auxObj;
-  }
-
-  static deepFormatObjectDates(object: object, target: Target = 'number', depth: number = 0): object {
-    return this.formatComplexObjectDates(object, target);
   }
 
   static DATE_FIELDS = [
