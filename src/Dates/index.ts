@@ -24,7 +24,6 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
-
     const typeOf = (element: unknown) => {
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
@@ -114,7 +113,6 @@ class Dates {
     const _date = this.toDate(date);
 
     if (_date instanceof Date) {
-
       const result = {
         fieldDate: (d: Date): string => this.format(d, 'yyyy-MM-dd'),
         timestamp: (d: Date): Timestamp => Timestamp.fromDate(d),
