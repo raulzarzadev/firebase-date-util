@@ -176,7 +176,7 @@ class Dates {
         }
       }
     }
-    console.log(auxObj);
+    // console.log(auxObj);
     return auxObj;
   }
 
