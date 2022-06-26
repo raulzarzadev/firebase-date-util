@@ -24,6 +24,7 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
+
     const typeOf = (element: unknown) => {
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
@@ -52,12 +53,12 @@ class Dates {
       // @ts-ignore
       string: () => (new Date(date)?.getTime() ? new Date(date) : date),
       null: () => date,
-      undefined: () => date,
       array: () => date,
       literalObject: () => date,
       function: () => date,
       symbol: () => date,
       object: () => date,
+      undefined: () => date,
     };
 
     return result[typeOf(date)]();
@@ -121,8 +122,9 @@ class Dates {
       };
 
       return result[target]();
+    } else {
+      return options.avoidUndefined ? null : _date;
     }
-    return date;
   }
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
