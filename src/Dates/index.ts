@@ -25,33 +25,33 @@ class Dates {
 
   static toDate = (date: unknown) => {
 
-    const typeOf = (date: unknown) => {
+    const typeOf = (element: unknown) => {
 
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
       }
 
-      if (date === null) return 'null'
-      if (date === undefined) return 'undefined'
-      if (Array.isArray(date)) return 'array'
-      if (isLiteralObject(date)) return 'literalObject'
-      if (date instanceof Date) return 'date'
-      if (date instanceof Timestamp) return 'timestamp'
-      if (typeof date === 'number') return 'number'
-      if (typeof date === 'string') return 'string'
-      if (typeof date === 'function') return 'function'
-      if (typeof date === 'symbol') return 'symbol'
-      if (typeof date === 'object') return 'object'
+      if (element === null) return 'null'
+      if (element === undefined) return 'undefined'
+      if (Array.isArray(element)) return 'array'
+      if (isLiteralObject(element)) return 'literalObject'
+      if (element instanceof Date) return 'date'
+      if (element instanceof Timestamp) return 'timestamp'
+      if (typeof element === 'number') return 'number'
+      if (typeof element === 'string') return 'string'
+      if (typeof element === 'function') return 'function'
+      if (typeof element === 'symbol') return 'symbol'
+      if (typeof element === 'object') return 'object'
 
     }
 
     const result = {
       'date': () => date,
-      //@ts-ignore
+      // @ts-ignore
       'timestamp': () => date?.toDate(),
-      //@ts-ignore
+      // @ts-ignore
       'number': () => new Date(date),
-      //@ts-ignore
+      // @ts-ignore
       'string': () => new Date(date)?.getTime() ? new Date(date) : date,
       'null': () => date,
       'undefined': () => date,
@@ -61,7 +61,7 @@ class Dates {
       'symbol': () => date,
     }
 
-    //@ts-ignore
+    // @ts-ignore
     return result[typeOf(date)]()
 
   };
@@ -115,7 +115,7 @@ class Dates {
       return options?.avoidUndefined ? null : date
     }
 
-   
+
 
     const _date = this.toDate(date);
     // console.log(_date)
