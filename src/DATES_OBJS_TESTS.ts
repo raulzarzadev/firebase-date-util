@@ -91,8 +91,6 @@ export const OBJ_OBJECTS = {
   },
 };
 
-
-
 export const DEEP_OBJECT = {
   obj: {
     name: 'Pedro',
@@ -159,7 +157,6 @@ export const DEEP_OBJECT = {
     };
   },
   expectingNull: (TIPO: any) => {
-
     return {
       name: expect.any(String),
       date: expect.any(TIPO),
@@ -191,5 +188,5 @@ export const DEEP_OBJECT = {
         },
       },
     };
-  }
+  },
 };

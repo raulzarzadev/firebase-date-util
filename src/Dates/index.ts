@@ -178,7 +178,6 @@ class Dates {
     }
     // console.log(auxObj)
     return auxObj;
-
   }
 
   static DATE_FIELDS = [
