@@ -113,15 +113,16 @@ class Dates {
   ) {
     const _date = this.toDate(date);
 
-    if (_date) {
+    if (_date instanceof Date) {
+
       const result = {
-        fieldDate: (): string => this.format(_date, 'yyyy-MM-dd'),
-        timestamp: (): Timestamp => Timestamp.fromDate(_date),
-        date: (): Date => _date,
-        number: (): number => _date.getTime(),
+        fieldDate: (date: Date): string => this.format(date, 'yyyy-MM-dd'),
+        timestamp: (date: Date): Timestamp => Timestamp.fromDate(date),
+        date: (date: Date): Date => date,
+        number: (date: Date): number => date.getTime(),
       };
 
-      return result[target]();
+      return result[target](_date);
     } else {
       return options.avoidUndefined ? null : _date;
     }
