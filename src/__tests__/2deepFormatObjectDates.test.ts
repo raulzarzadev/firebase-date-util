@@ -14,11 +14,14 @@ test('deep format object dates to timestamp', () => {
   expect(Dates.formatComplexObjectDates(obj, 'timestamp')).toStrictEqual(expecting(Timestamp));
 });
 
-
 test('deep format object dates to date, avoid undefined', () => {
-  expect(Dates.formatComplexObjectDates({ ...obj, updatedAt: undefined }, 'timestamp', { avoidUndefined: true })).toStrictEqual({ ...expecting(Timestamp), updatedAt: null });
+  expect(
+    Dates.formatComplexObjectDates({ ...obj, updatedAt: undefined }, 'timestamp', { avoidUndefined: true }),
+  ).toStrictEqual({ ...expecting(Timestamp), updatedAt: null });
 });
 
 test('deep format object dates to date, allow undefined', () => {
-  expect(Dates.formatComplexObjectDates({ ...obj, updatedAt: undefined }, 'timestamp', { avoidUndefined: false })).toStrictEqual({ ...expecting(Timestamp), updatedAt: undefined });
+  expect(
+    Dates.formatComplexObjectDates({ ...obj, updatedAt: undefined }, 'timestamp', { avoidUndefined: false }),
+  ).toStrictEqual({ ...expecting(Timestamp), updatedAt: undefined });
 });

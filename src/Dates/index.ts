@@ -6,7 +6,7 @@ type ToDate = Date | null;
 type ToTimestamp = Timestamp | null;
 type Target = 'timestamp' | 'number' | 'date' | 'fieldDate';
 interface TransformDateOptions {
-  avoidUndefined?: boolean
+  avoidUndefined?: boolean;
 }
 class Dates {
   static errorLog(functionName: string, message: string, ...rest: unknown[]) {
@@ -24,46 +24,42 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
-
     const typeOf = (element: unknown) => {
-
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
-      }
+      };
 
-      if (element === null) return 'null'
-      if (element === undefined) return 'undefined'
-      if (Array.isArray(element)) return 'array'
-      if (isLiteralObject(element)) return 'literalObject'
-      if (element instanceof Date) return 'date'
-      if (element instanceof Timestamp) return 'timestamp'
-      if (typeof element === 'number') return 'number'
-      if (typeof element === 'string') return 'string'
-      if (typeof element === 'function') return 'function'
-      if (typeof element === 'symbol') return 'symbol'
-      if (typeof element === 'object') return 'object'
-
-    }
+      if (element === null) return 'null';
+      if (element === undefined) return 'undefined';
+      if (Array.isArray(element)) return 'array';
+      if (isLiteralObject(element)) return 'literalObject';
+      if (element instanceof Date) return 'date';
+      if (element instanceof Timestamp) return 'timestamp';
+      if (typeof element === 'number') return 'number';
+      if (typeof element === 'string') return 'string';
+      if (typeof element === 'function') return 'function';
+      if (typeof element === 'symbol') return 'symbol';
+      if (typeof element === 'object') return 'object';
+    };
 
     const result = {
-      'date': () => date,
+      date: () => date,
       // @ts-ignore
-      'timestamp': () => date?.toDate(),
+      timestamp: () => date?.toDate(),
       // @ts-ignore
-      'number': () => new Date(date),
+      number: () => new Date(date),
       // @ts-ignore
-      'string': () => new Date(date)?.getTime() ? new Date(date) : date,
-      'null': () => date,
-      'undefined': () => date,
-      'array': () => date,
-      'literalObject': () => date,
-      'function': () => date,
-      'symbol': () => date,
-    }
+      string: () => (new Date(date)?.getTime() ? new Date(date) : date),
+      null: () => date,
+      undefined: () => date,
+      array: () => date,
+      literalObject: () => date,
+      function: () => date,
+      symbol: () => date,
+    };
 
     // @ts-ignore
-    return result[typeOf(date)]()
-
+    return result[typeOf(date)]();
   };
 
   static toMiliseconds(date: any) {
@@ -108,14 +104,15 @@ class Dates {
     return null;
   };
 
-  static transformDateTo(date: string | number | Date | Timestamp, target: Target, options: TransformDateOptions = { avoidUndefined: false }) {
-
+  static transformDateTo(
+    date: string | number | Date | Timestamp,
+    target: Target,
+    options: TransformDateOptions = { avoidUndefined: false },
+  ) {
     if (!date) {
-      console.error('error', date)
-      return options?.avoidUndefined ? null : date
+      console.error('error', date);
+      return options?.avoidUndefined ? null : date;
     }
-
-
 
     const _date = this.toDate(date);
     // console.log(_date)
@@ -131,12 +128,10 @@ class Dates {
   }
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
-
     const auxObj = { ...object };
 
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
-
 
       if (this.DATE_FIELDS.includes(key)) {
         // @ts-ignore
@@ -162,7 +157,6 @@ class Dates {
 
   static formatComplexObjectDates(object: object, target: Target, options?: TransformDateOptions) {
     return this.deepFormatObjectDates(object, target, options);
-
   }
 
   static deepFormatObjectDates(object: object, target: Target = 'number', options?: TransformDateOptions): object {
@@ -183,7 +177,7 @@ class Dates {
         }
       }
     }
-    console.log(auxObj)
+    console.log(auxObj);
     return auxObj;
   }
 
