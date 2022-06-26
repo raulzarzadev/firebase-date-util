@@ -158,7 +158,7 @@ export const DEEP_OBJECT = {
       },
     };
   },
-  expectingNull: function (TIPO: any) {
+  expectingNull: (TIPO: any) => {
 
     return {
       name: expect.any(String),
