@@ -6,7 +6,7 @@ test('ransform date to number', () => {
   expect(Dates.transformDateTo(date, 'number')).toEqual(expect.any(Number));
 });
 
-test('ransform string to timestamp', () => {
+ test('ransform string to timestamp', () => {
   const date = new Date().toString();
   expect(Dates.transformDateTo(date, 'timestamp')).toEqual(expect.any(Timestamp));
 });

@@ -91,11 +91,18 @@ export const OBJ_OBJECTS = {
   },
 };
 
+
+
 export const DEEP_OBJECT = {
   obj: {
     name: 'Pedro',
     date: new Date(),
     fieldDate: '2022-06-12',
+    visible: false,
+    updatedAt: undefined,
+    createdAt: null,
+    fecha: Timestamp.now(),
+    birth: Timestamp.fromDate(new Date()),
     dates: {
       createdBy: 'Lula',
       createdAt: new Date(),
@@ -123,7 +130,11 @@ export const DEEP_OBJECT = {
       name: expect.any(String),
       date: expect.any(TIPO),
       fieldDate: expect.any(TIPO),
-
+      visible: false,
+      updatedAt: undefined,
+      createdAt: null,
+      fecha: expect.any(TIPO),
+      birth: expect.any(TIPO),
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
@@ -147,4 +158,38 @@ export const DEEP_OBJECT = {
       },
     };
   },
+  expectingNull: function (TIPO: any) {
+
+    return {
+      name: expect.any(String),
+      date: expect.any(TIPO),
+      fieldDate: expect.any(TIPO),
+      visible: false,
+      updatedAt: null,
+      createdAt: null,
+      fecha: expect.any(TIPO),
+      birth: expect.any(TIPO),
+      dates: {
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+        fechas: {
+          createdBy: expect.any(String),
+          createdAt: expect.any(TIPO),
+          startAt: expect.any(TIPO),
+          finishAt: expect.any(TIPO),
+          posts: [
+            {
+              id: expect.any(Number),
+              createdBy: expect.any(String),
+              createdAt: expect.any(TIPO),
+              startAt: expect.any(TIPO),
+              finishAt: expect.any(TIPO),
+            },
+          ],
+        },
+      },
+    };
+  }
 };
