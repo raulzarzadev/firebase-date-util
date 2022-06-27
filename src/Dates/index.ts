@@ -1,4 +1,4 @@
-import { format as fnsFormat, formatDistanceToNowStrict } from 'date-fns';
+import { format as fnsFormat, formatDistanceToNowStrict, isValid } from 'date-fns';
 import { es, ta } from 'date-fns/locale';
 import { Timestamp } from 'firebase/firestore';
 
@@ -90,19 +90,16 @@ class Dates {
     return 'isNaD';
   };
 
-  static fromNow = (date: string | number | Date): string | null => {
-    const _date = this.toDate(date);
+  static fromNow = (date?: string | number | Date): string => {
 
-    if (_date)
-      return formatDistanceToNowStrict(_date, {
+    if (date && isValid(date))
+      return formatDistanceToNowStrict(new Date(date), {
         locale: es,
         roundingMethod: 'floor',
         addSuffix: true,
       });
 
-    this.errorLog('fromNow', 'invalid date', date);
-
-    return null;
+    return 'isNaD';
   };
 
   static transformDateTo(
