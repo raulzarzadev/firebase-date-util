@@ -30,7 +30,7 @@ class Dates {
       };
       if (element === null) return 'null';
       if (element === undefined) return 'undefined';
-      if (element?.hasOwnProperty('toDate')) return 'timestamp'
+      if (element?.hasOwnProperty('toDate')) return 'timestamp';
       if (element instanceof Timestamp) return 'timestamp';
       if (Array.isArray(element)) return 'array';
       if (isLiteralObject(element)) return 'literalObject';
