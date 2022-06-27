@@ -24,21 +24,21 @@ class Dates {
   }
 
   static toDate = (date: unknown) => {
-    const typeOf = (element: unknown) => {
+    const typeOf = (element: any) => {
       const isLiteralObject = (a: any) => {
         return !!a && a.constructor === Object;
       };
-
       if (element === null) return 'null';
       if (element === undefined) return 'undefined';
+      if (element?.hasOwnProperty('toDate')) return 'timestamp'
+      if (element instanceof Timestamp) return 'timestamp';
       if (Array.isArray(element)) return 'array';
       if (isLiteralObject(element)) return 'literalObject';
-      if (element instanceof Date) return 'date';
-      if (element instanceof Timestamp) return 'timestamp';
       if (typeof element === 'number') return 'number';
       if (typeof element === 'string') return 'string';
       if (typeof element === 'function') return 'function';
       if (typeof element === 'symbol') return 'symbol';
+      if (element instanceof Date) return 'date';
       if (typeof element === 'object') return 'object';
       return 'undefined';
     };
