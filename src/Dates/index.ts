@@ -91,7 +91,6 @@ class Dates {
   };
 
   static fromNow = (date?: string | number | Date): string => {
-
     if (date && isValid(date))
       return formatDistanceToNowStrict(new Date(date), {
         locale: es,
