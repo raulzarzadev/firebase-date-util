@@ -30,7 +30,7 @@ class Dates {
       };
       if (element === null) return 'null';
       if (element === undefined) return 'undefined';
-      if (element?.hasOwnProperty('toDate')) return 'timestamp';
+      if (element?.toDate) return 'timestamp';
       if (element instanceof Timestamp) return 'timestamp';
       if (Array.isArray(element)) return 'array';
       if (isLiteralObject(element)) return 'literalObject';
@@ -108,7 +108,7 @@ class Dates {
   ) {
     const _date = this.toDate(date);
 
-    if (_date instanceof Date) {
+    if (_date) {
       const result = {
         fieldDate: (d: Date): string => this.format(d, 'yyyy-MM-dd'),
         timestamp: (d: Date): Timestamp => Timestamp.fromDate(d),
