@@ -1,6 +1,6 @@
 {
   "name": "firebase-dates-util",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "A util package to transform dates string, numbers or Date Objects to firebase Timestamp and viceversa ",
   "scripts": {
     "test": "jest --config jestconfig.json",
