@@ -1,7 +1,13 @@
 
 # firebase-dates-util
+This is a tool that will help you transform date fields in object to a different formats as
 
-Whenever I start a new project, I don't know what to write for the first commit. After doing a “git init” there is technically nothing there...
+- number
+- date string
+- number
+- firebase Timestamp 
+
+
 
 ## Install
 
@@ -15,7 +21,9 @@ install into a project
 
 set firebase config JSON 
 
-start using 
+this package include some default fields that will be transformed. 
+
+How ever you can add more fields or discards some others
 
 # Contributing
 If someone wants to add or improve something, I invite you to collaborate directly in this repository: [firebase-dates-util](https://github.com/raulzarzadev/firebase-date-util/)

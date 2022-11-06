@@ -101,6 +101,8 @@ export const DEEP_OBJECT = {
     createdAt: null,
     fecha: Timestamp.now(),
     birth: Timestamp.fromDate(new Date()),
+    custom_field: '23435',
+    custom_field_2: '2022-06-12',
     dates: {
       createdBy: 'Lula',
       createdAt: new Date(),
@@ -133,6 +135,8 @@ export const DEEP_OBJECT = {
       createdAt: null,
       fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
+      custom_field: '23435',
+      custom_field_2: '2022-06-12',
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
@@ -166,6 +170,78 @@ export const DEEP_OBJECT = {
       createdAt: null,
       fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
+      custom_field: '23435',
+      custom_field_2: '2022-06-12',
+      dates: {
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+        fechas: {
+          createdBy: expect.any(String),
+          createdAt: expect.any(TIPO),
+          startAt: expect.any(TIPO),
+          finishAt: expect.any(TIPO),
+          posts: [
+            {
+              id: expect.any(Number),
+              createdBy: expect.any(String),
+              createdAt: expect.any(TIPO),
+              startAt: expect.any(TIPO),
+              finishAt: expect.any(TIPO),
+            },
+          ],
+        },
+      },
+    };
+  },
+  expectingCustomFields: (TIPO: any) => {
+    return {
+      name: expect.any(String),
+      date: expect.any(TIPO),
+      fieldDate: expect.any(TIPO),
+      visible: false,
+      updatedAt: undefined,
+      createdAt: null,
+      fecha: expect.any(TIPO),
+      birth: expect.any(TIPO),
+      custom_field: expect.any(TIPO),
+      custom_field_2: '2022-06-12',
+      dates: {
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+        fechas: {
+          createdBy: expect.any(String),
+          createdAt: expect.any(TIPO),
+          startAt: expect.any(TIPO),
+          finishAt: expect.any(TIPO),
+          posts: [
+            {
+              id: expect.any(Number),
+              createdBy: expect.any(String),
+              createdAt: expect.any(TIPO),
+              startAt: expect.any(TIPO),
+              finishAt: expect.any(TIPO),
+            },
+          ],
+        },
+      },
+    };
+  },
+  expectingAvoidCustomFields: (TIPO: any) => {
+    return {
+      name: expect.any(String),
+      date: expect.any(TIPO),
+      fieldDate: '2022-06-12',
+      visible: false,
+      updatedAt: undefined,
+      createdAt: null,
+      fecha: expect.any(TIPO),
+      birth: expect.any(TIPO),
+      custom_field: '23435',
+      custom_field_2: '2022-06-12',
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),

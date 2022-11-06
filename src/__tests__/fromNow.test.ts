@@ -1,6 +1,6 @@
 import { Dates } from '../Dates';
 
-test('from now funciton ', () => {
+test('from now function ', () => {
   expect(Dates.fromNow()).toMatch(/(.*?)/);
 });
 

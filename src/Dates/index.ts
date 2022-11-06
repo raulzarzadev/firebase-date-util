@@ -1,12 +1,15 @@
 import { format as fnsFormat, formatDistanceToNowStrict, isValid } from 'date-fns';
 import { es, ta } from 'date-fns/locale';
 import { Timestamp } from 'firebase/firestore';
+import ARRAY_DATES from '../DEFAULT_FIELDS';
 
 type ToDate = Date | null;
 type ToTimestamp = Timestamp | null;
 type Target = 'timestamp' | 'number' | 'date' | 'fieldDate';
 interface TransformDateOptions {
   avoidUndefined?: boolean;
+  includeFields?: string[];
+  avoidFields?: string[];
 }
 class Dates {
   static errorLog(functionName: string, message: string, ...rest: unknown[]) {
@@ -124,20 +127,30 @@ class Dates {
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
     const auxObj = { ...object };
-
+    /**
+     * This function should return the same object , transforming the date fields specificated in FIELDS in the target format. 
+     * also will find and change the dates formats Date and Timestamp(firebase) and transform to the target format
+     */
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
+      const customFields = options?.includeFields  || []
+      const FIELDS = [...this.DATE_FIELDS, ...customFields].filter(field=>!options?.avoidFields?.includes(field))
 
-      if (this.DATE_FIELDS.includes(key)) {
+     
+      if (FIELDS.includes(key)) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else if (objProperty instanceof Date) {
+        // TODO configure allow or reject transform if instance of Date
         // @ts-ignore
+        
         auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else if (objProperty instanceof Timestamp) {
+        // TODO configure allow or reject transform if instance of  Timestamp
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target, options);
       } else {
+        // If field does´t match any below options return de original value
         // @ts-ignore
         auxObj[key] = object[key];
       }
@@ -176,24 +189,7 @@ class Dates {
     return auxObj;
   }
 
-  static DATE_FIELDS = [
-    'birth',
-    'date',
-    'createdAt',
-    'updatedAt',
-    'deletedAt',
-    'finishAt',
-    'startAt',
-    'startsAt',
-    'endAt',
-    'endsAt',
-    'joinedAt',
-    'registryDate',
-    'publishEnds',
-    'publishStart',
-    'lastUpdate',
-    'fieldDate',
-  ];
+  static DATE_FIELDS=ARRAY_DATES
 }
 
 export { Dates };
