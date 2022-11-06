@@ -10,6 +10,8 @@ interface TransformDateOptions {
   avoidUndefined?: boolean;
   includeFields?: string[];
   avoidFields?: string[];
+  ignoreDefaultDateTypeField?: boolean;
+  ignoreDefaultTimestampTypeField?: boolean;
 }
 class Dates {
   static errorLog(functionName: string, message: string, ...rest: unknown[]) {
@@ -127,25 +129,26 @@ class Dates {
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
     const auxObj = { ...object };
+    const customFields = options?.includeFields  || []
+    const ignoreDefaultDateTypeField = !!options?.ignoreDefaultDateTypeField;
+    const ignoreDefaultTimestampTypeField = !!options?.ignoreDefaultTimestampTypeField;
     /**
      * This function should return the same object , transforming the date fields specificated in FIELDS in the target format. 
      * also will find and change the dates formats Date and Timestamp(firebase) and transform to the target format
      */
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
-      const customFields = options?.includeFields  || []
       const FIELDS = [...this.DATE_FIELDS, ...customFields].filter(field=>!options?.avoidFields?.includes(field))
 
-     
       if (FIELDS.includes(key)) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target, options);
-      } else if (objProperty instanceof Date) {
+
+      } else if (objProperty instanceof Date && !ignoreDefaultDateTypeField) {
         // TODO configure allow or reject transform if instance of Date
         // @ts-ignore
-        
         auxObj[key] = this.transformDateTo(objProperty, target, options);
-      } else if (objProperty instanceof Timestamp) {
+      } else if (objProperty instanceof Timestamp && !ignoreDefaultTimestampTypeField) {
         // TODO configure allow or reject transform if instance of  Timestamp
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target, options);
@@ -155,6 +158,7 @@ class Dates {
         auxObj[key] = object[key];
       }
     });
+
 
     return auxObj;
   }

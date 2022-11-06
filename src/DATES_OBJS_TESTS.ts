@@ -91,33 +91,37 @@ export const OBJ_OBJECTS = {
   },
 };
 
+const newDate = new Date()
+const firebaseTimestamp=(date:Date=new Date())=>Timestamp.fromDate(date)
+
 export const DEEP_OBJECT = {
   obj: {
     name: 'Pedro',
-    date: new Date(),
+    date: newDate,
     fieldDate: '2022-06-12',
     visible: false,
     updatedAt: undefined,
     createdAt: null,
-    fecha: Timestamp.now(),
-    birth: Timestamp.fromDate(new Date()),
+    birth: firebaseTimestamp(),
     custom_field: '23435',
     custom_field_2: '2022-06-12',
+    defaultDateType: newDate, // should change to target always since option ignoreDefaultDateTypeField marked as false or undefined
+    defaultTimestampType: firebaseTimestamp(), // should change to target always since option ignoreDefaultTimestampTypeField marked as false or undefined
     dates: {
       createdBy: 'Lula',
-      createdAt: new Date(),
+      createdAt: newDate,
       startAt: 23423523423,
       finishAt: '2022-06-12',
       fechas: {
         createdBy: 'Lula',
-        createdAt: new Date(),
+        createdAt: newDate,
         startAt: 23423523423,
         finishAt: '2022-06-12',
         posts: [
           {
             id: 1,
             createdBy: 'Jow Dea',
-            createdAt: new Date(),
+            createdAt: newDate,
             startAt: 23423523423,
             finishAt: '2022-06-12',
           },
@@ -133,10 +137,11 @@ export const DEEP_OBJECT = {
       visible: false,
       updatedAt: undefined,
       createdAt: null,
-      fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
       custom_field: '23435',
       custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(TIPO),
+      defaultTimestampType: expect.any(TIPO),
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
@@ -168,10 +173,11 @@ export const DEEP_OBJECT = {
       visible: false,
       updatedAt: null,
       createdAt: null,
-      fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
       custom_field: '23435',
       custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(TIPO),
+      defaultTimestampType: expect.any(TIPO),
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
@@ -203,10 +209,11 @@ export const DEEP_OBJECT = {
       visible: false,
       updatedAt: undefined,
       createdAt: null,
-      fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
       custom_field: expect.any(TIPO),
       custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(TIPO),
+      defaultTimestampType: expect.any(TIPO),
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
@@ -238,10 +245,83 @@ export const DEEP_OBJECT = {
       visible: false,
       updatedAt: undefined,
       createdAt: null,
-      fecha: expect.any(TIPO),
       birth: expect.any(TIPO),
       custom_field: '23435',
       custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(TIPO),
+      defaultTimestampType: expect.any(TIPO),
+      dates: {
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+        fechas: {
+          createdBy: expect.any(String),
+          createdAt: expect.any(TIPO),
+          startAt: expect.any(TIPO),
+          finishAt: expect.any(TIPO),
+          posts: [
+            {
+              id: expect.any(Number),
+              createdBy: expect.any(String),
+              createdAt: expect.any(TIPO),
+              startAt: expect.any(TIPO),
+              finishAt: expect.any(TIPO),
+            },
+          ],
+        },
+      },
+    };
+  },
+  expectingIgnoreDateTypes: (TIPO: any) => {
+    return {
+      name: expect.any(String),
+      date: expect.any(TIPO),
+      fieldDate: expect.any(TIPO),
+      visible: false,
+      updatedAt: undefined,
+      createdAt: null,
+      birth: expect.any(TIPO),
+      custom_field: '23435',
+      custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(Date),
+      defaultTimestampType: expect.any(TIPO),
+      dates: {
+        createdBy: expect.any(String),
+        createdAt: expect.any(TIPO),
+        startAt: expect.any(TIPO),
+        finishAt: expect.any(TIPO),
+        fechas: {
+          createdBy: expect.any(String),
+          createdAt: expect.any(TIPO),
+          startAt: expect.any(TIPO),
+          finishAt: expect.any(TIPO),
+          posts: [
+            {
+              id: expect.any(Number),
+              createdBy: expect.any(String),
+              createdAt: expect.any(TIPO),
+              startAt: expect.any(TIPO),
+              finishAt: expect.any(TIPO),
+            },
+          ],
+        },
+      },
+    };
+  },
+  expectingIgnoreTimestampTypes: (TIPO: any) => {
+    return {
+      name: expect.any(String),
+      date: expect.any(TIPO),
+      fieldDate: expect.any(TIPO),
+      visible: false,
+      updatedAt: undefined,
+      createdAt: null,
+      birth: expect.any(TIPO),
+      custom_field: '23435',
+      custom_field_2: '2022-06-12',
+      defaultDateType: expect.any(TIPO),
+      defaultTimestampType: expect.any(Timestamp),
       dates: {
         createdBy: expect.any(String),
         createdAt: expect.any(TIPO),
