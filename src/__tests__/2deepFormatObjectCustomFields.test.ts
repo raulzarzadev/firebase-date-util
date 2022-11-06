@@ -13,9 +13,12 @@ test('deep format object dates to number with custom fields', () => {
 });
 
 test('deep format object dates to number with  custom fields and avoiding fields', () => {
-  expect(Dates.deepFormatObjectDates(obj, 'number', { includeFields: ['custom_field','custom_field_2'], avoidFields:['custom_field_2'] })).toStrictEqual(
-    expectingCustomFields(Number),
-  );
+  expect(
+    Dates.deepFormatObjectDates(obj, 'number', {
+      includeFields: ['custom_field', 'custom_field_2'],
+      avoidFields: ['custom_field_2'],
+    }),
+  ).toStrictEqual(expectingCustomFields(Number));
 });
 
 test('deep format object dates to number avoiding  custom fields', () => {

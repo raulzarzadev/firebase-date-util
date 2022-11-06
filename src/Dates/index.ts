@@ -129,21 +129,20 @@ class Dates {
 
   static formatObjectDates(object: object, target: Target, options?: TransformDateOptions) {
     const auxObj = { ...object };
-    const customFields = options?.includeFields  || []
+    const customFields = options?.includeFields || [];
     const ignoreDefaultDateTypeField = !!options?.ignoreDefaultDateTypeField;
     const ignoreDefaultTimestampTypeField = !!options?.ignoreDefaultTimestampTypeField;
     /**
-     * This function should return the same object , transforming the date fields specificated in FIELDS in the target format. 
+     * This function should return the same object , transforming the date fields specificated in FIELDS in the target format.
      * also will find and change the dates formats Date and Timestamp(firebase) and transform to the target format
      */
     Object.keys(auxObj).forEach((key) => {
       const objProperty: any = auxObj[key as keyof typeof object];
-      const FIELDS = [...this.DATE_FIELDS, ...customFields].filter(field=>!options?.avoidFields?.includes(field))
+      const FIELDS = [...this.DATE_FIELDS, ...customFields].filter((field) => !options?.avoidFields?.includes(field));
 
       if (FIELDS.includes(key)) {
         // @ts-ignore
         auxObj[key] = this.transformDateTo(objProperty, target, options);
-
       } else if (objProperty instanceof Date && !ignoreDefaultDateTypeField) {
         // TODO configure allow or reject transform if instance of Date
         // @ts-ignore
@@ -158,7 +157,6 @@ class Dates {
         auxObj[key] = object[key];
       }
     });
-
 
     return auxObj;
   }
@@ -193,7 +191,7 @@ class Dates {
     return auxObj;
   }
 
-  static DATE_FIELDS=ARRAY_DATES
+  static DATE_FIELDS = ARRAY_DATES;
 }
 
 export { Dates };

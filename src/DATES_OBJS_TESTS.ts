@@ -91,8 +91,8 @@ export const OBJ_OBJECTS = {
   },
 };
 
-const newDate = new Date()
-const firebaseTimestamp=(date:Date=new Date())=>Timestamp.fromDate(date)
+const newDate = new Date();
+const firebaseTimestamp = (date: Date = new Date()) => Timestamp.fromDate(date);
 
 export const DEEP_OBJECT = {
   obj: {
